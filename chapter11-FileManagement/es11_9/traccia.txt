@@ -1,0 +1,59 @@
+ES 11.3
+Scrivete una singola istruzione per effettuare ognuna delle seguenti operazioni.
+Supponete che ciascuna di queste istruzioni si riferisca allo stesso programma.
+a) Scrivete un’istruzione che apra il file "oldmast.dat" per la lettura e assegni a ofPtr il puntatore a file restituito.
+b) Scrivete un’istruzione che apra il file "trans.dat" per la lettura e assegni a tfPtr il puntatore a file restituito.
+c) Scrivete un’istruzione che apra il file "newmast.dat" per la scrittura (e la creazione)
+ e assegni a nfPtr il puntatore a file restituito.
+d) Scrivete un’istruzione che legga un record dal file "oldmast.dat".
+ Il record consiste nell’intero accountNum,nella stringa name e nel valore in virgola mobile currentBalance.
+e) Scrivete un’istruzione che legga un record dal file "trans.dat". Il record consiste 
+   nell’intero accountNum e nel valore in virgola mobile dollarAmount.
+f) Scrivete un’istruzione che scriva un record sul file "newmast.dat". Il record consiste 
+nell’intero accountNum, nella stringa name e nel valore in virgola mobile currentBalance. 
+
+ES 11.8
+(Confronto di file) L’Esercizio 11.3 chiedeva al lettore di scrivere una serie di istruzioni 
+singole. In realtà, queste istruzioni formano il nucleo di un importante tipo di programma 
+di elaborazione di file, vale a dire un programma di confronto di file. Nell’elaborazione di 
+dati commerciali è comune avere sistemi con diversi file. In un sistema di contabilità dei 
+clienti, ad esempio, vi è generalmente un file principale contenente informazioni dettaglia
+te su ogni cliente, come il nome del cliente, l’indirizzo, il numero di telefono, il saldo 
+scoperto, il limite di credito, i termini dello sconto, gli accordi di contratto e possibilmente 
+una sintesi dei recenti acquisti e pagamenti in contanti.
+
+ Quando avvengono delle transazioni (cioè si effettuano vendite e si ricevono pagamenti in 
+contanti), queste sono inserite in un file. Alla fine di ogni periodo di attività (cioè un mese 
+per alcune aziende, una settimana per altre e un giorno in alcuni casi), il file delle transa
+zioni (chiamato "trans.dat" nell’Esercizio 11.3) viene confrontato con il file principale 
+(chiamato "oldmast.dat" nell’Esercizio 11.3), per aggiornare così ogni record di conto 
+riguardo agli acquisti e ai pagamenti. Dopo l’esecuzione di ognuno di questi aggiornamen
+ti, il file principale viene riscritto come nuovo file ("newmast.dat"), che viene poi usato 
+nel successivo periodo di attività per il nuovo processo di aggiornamento.
+
+ I programmi di confronto di file devono avere a che fare con certi problemi che non esisto
+no nei programmi con file singoli. Ad esempio, con i file singoli non si ha mai un confron
+to di file. Un cliente sul file principale potrebbe non aver fatto acquisti o pagamenti in 
+contanti nel periodo corrente di attività e pertanto non comparirà alcun record sul file delle 
+transazioni per questo cliente. Analogamente, un cliente che ha fatto alcuni acquisti o paga
+menti in contanti potrebbe essere venuto a far parte di quella comunità di recente e l’azien
+da può non aver avuto la possibilità di creare un record principale per questo cliente.
+ Usate le istruzioni scritte nell’Esercizio 11.3 come base per un programma completo di 
+contabilità dei clienti, in grado di effettuare confronti tra file. Usate il numero di conto per 
+ognuno dei file come chiave del record per i confronti. Supponete che ogni file sia un file 
+sequenziale con record memorizzati in ordine crescente di numero di conto.
+
+  (Supponete che gli acquisti Quando un confronto ha successo (cioè i record con lo stesso numero di conto compaiono 
+sia sul file principale che sul file delle transazioni) aggiungete l’ammontare in dollari con
+tenuto nel file delle transazioni al saldo corrente nel file principale e scrivete il record nel 
+file  "newmast.dat".siano indicati con importi positivi nel file 
+delle transazioni e che i pagamenti siano indicati con importi negativi.)ù
+Quando vi è un record principale per un certo conto, ma nessun record di transazione corrispondente,
+trasferite solamente il record principale su "newmast.dat".
+Quando vi è un record di transazione, ma nessun record principale corrispondente, stampate il messaggio "Unmatched 
+transaction record for account number ..." (inserite il numero di conto dal record 
+della transazione). 
+
+(Verificare gli esercizi per il confronto di file) Fate eseguire il programma dell’Esercizio 11.8 
+usando i file di dati di test creati nell’Esercizio 11.7. Controllate attentamente i risultati.
+
