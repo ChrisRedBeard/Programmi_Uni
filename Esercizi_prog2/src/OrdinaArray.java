@@ -10,10 +10,10 @@ import java.util.Scanner;
 
 public class OrdinaArray {
 
-	static void swap(int a,int b){
-		int temp=a;
-		a=b;
-		b=temp;
+	static void swap(int[] a, int i, int j) {
+	    int temp = a[i];
+	    a[i] = a[j];
+	    a[j] = temp;
 	}
 	
 	
@@ -34,10 +34,10 @@ static int bubbleSort(int a[]){
 		
 		for(int i=0;i<a.length-1;i++){
 			boolean scambiAvvenuti= false;
-			 for(int j=0;j<a.length-i;j++){
+			 for(int j=0;j<a.length-1-i;j++){
 				 numConfronti=numConfronti+1;
-				 if(!relazioneOrdine(a[j-1],a[j])) {
-					 swap(a[j-1],a[j]);
+				 if(!relazioneOrdine(a[j],a[j+1])) {
+					 swap(a,j,j+1);
 					 scambiAvvenuti=true;
 				 }
 			 }
@@ -62,19 +62,19 @@ static int insertionSort(int a[]){
 	 int minJ=indiceElementoMinimo(a);
 	 
 	 confronti= confronti+a.length-1;// perché nel ciclo di indiceElementoMinimo facciamo A.length-1 confronti
-	 swap(a[minJ],a[0]);
+	 swap(a,minJ,0);
 			 
-			 for (int k=1;k<a.length-2;k++){
+			 for (int k=1;k<a.length-1;k++){
 			   int x=a[k+1];
 			   int j=k;
-			    while(j>= 1 && a[j]>x){
+			    while(j>= 0 && a[j]>x){
 			    	confronti++;
 			    	a[j+1]=a[j]; //shift a destra
 			    	j--;
 			    }
 			   
 				//se il ciclo si interrompe per la condizione false, ho comunque fatto l'ultimo confronto
-			    if(j>=1){
+			    if(j>=0){
 			    	confronti++;
 			    }
 			    
@@ -94,43 +94,41 @@ static int insertionSort(int a[]){
  * @param numConfronti mi serve per tenere traccia del num di confronto, dato che non posso restituire 2 risultati da una funzione
  * */
 //IMPARARE A MEMORIA
-private static int partition(int a[],int inf,int sup, int numConfronti[]) {
-	int i,j;
-	numConfronti[0]=0;
-	i=inf;
-	j=sup;
-	int med=(inf+sup)/2;
-	int x=a[med];
-	
-	swap(a[inf],a[med]);
-	i = inf;
-	j= sup;
-	
-	while(true) {
-	// lo inseriamo perché altrimenti  se non entriamo nel secondo while ci perdiamo un confronto	
-		numConfronti[0]++; 
-		while(i<= sup && relazioneOrdine(a[i],x)) {
-			i++;
-			numConfronti[0]++;
-		}
-			while(a[j]>x) 
-			{
-				j--;
-				numConfronti[0]++;
-			}
-			if(i<j){
-				swap(a[i],a[j]);
-			}else break;
-			
-		}
-	
-		swap(a[inf],a[j]);
-	
-	return j;
+private static int partition(int a[], int inf, int sup, int numConfronti[]) {
+    int med = (inf + sup) / 2;
+    int x = a[med];
+
+    swap(a, inf, med); // porta il pivot in testa
+    int i = inf + 1;
+    int j = sup;
+
+    numConfronti[0] = 0;
+
+    while (true) {
+        while (i <= sup && a[i] < x) {
+            i++;
+            numConfronti[0]++;
+        }
+        if (i <= sup) numConfronti[0]++; // ultimo confronto che interrompe il while
+
+        while (a[j] > x) {
+            j--;
+            numConfronti[0]++;
+        }
+        if (i >= j) break;
+
+        swap(a, i, j);
+        i++;
+        j--;
+    }
+
+    swap(a, inf, j); // piazza il pivot nella posizione finale
+    return j;
 }
 
 
-
+// inf e sup indicano gli indici degli array
+// quando la richiamo quicksort(a,0,(a.lenght))
 private static int quicksort(int a[],int inf,int sup) {
 	int numConfronti=0;
 	if(sup>=inf) {
@@ -149,7 +147,6 @@ private static int quicksort(int a[],int inf,int sup) {
 	}
 	return numConfronti;
 }
-
 
 /*
  * Inizializza l'array di interi A con numeri interi generati in maniera casuale 
@@ -208,9 +205,16 @@ private static int quicksort(int a[],int inf,int sup) {
 		inizializzaArrayDecrescente(a);
 		stampaArray(a);
 		System.out.println("");
-		bubbleSort(a);
+		
+		//bubbleSort(a);
+		
+		//quicksort(a,0,(a.length-1));
+		
+		insertionSort(a);
 		stampaArray(a);
 		
+		
+		System.out.println("\n Programma terminato \n");
 		
 		return;
 	}
